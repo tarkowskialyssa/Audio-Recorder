@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">Audio Recorder</string>
+    <string name="audio_name">file.mpg</string>
+    <string name="audio_time">00:00</string>
 </resources>

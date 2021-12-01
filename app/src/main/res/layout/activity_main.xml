@@ -7,11 +7,11 @@
     tools:context=".MainActivity">
 
     <androidx.recyclerview.widget.RecyclerView
-        android:layout_width="418dp"
-        android:layout_height="592dp"
-        android:layout_marginTop="136dp"
+        android:id="@+id/idAudioRV"
+        android:layout_width="407dp"
+        android:layout_height="538dp"
+        android:layout_marginTop="116dp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.571"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
