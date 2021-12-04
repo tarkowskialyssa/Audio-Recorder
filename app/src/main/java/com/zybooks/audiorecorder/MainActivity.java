@@ -17,7 +17,7 @@ public class MainActivity extends AppCompatActivity {
 
     private RecyclerView audioRV;
     // ArrayList for storing data
-    private ArrayList<AudioModel> audioModelArrayList;
+    private AudioAdapter audioAdapter;
 
     private File[] allFiles;
 
@@ -28,30 +28,20 @@ public class MainActivity extends AppCompatActivity {
         //Set recycler view
         audioRV = findViewById(R.id.idAudioRV);
 
-        //Add data to new ArrayList
-        //DUMMY DATA FOR NOW
-        audioModelArrayList = new ArrayList<>();
-        audioModelArrayList.add(new AudioModel("file1.mpg", "15:00", R.drawable.play));
-        audioModelArrayList.add(new AudioModel("file2.mpg", "12:44", R.drawable.play));
-        audioModelArrayList.add(new AudioModel("verylongnameoffile.mpg", "00:01", R.drawable.play));
-        audioModelArrayList.add(new AudioModel("alyssasfile.mpg", "00:17", R.drawable.play));
+        //Set all files
+        String path = getExternalFilesDir("/").getAbsolutePath();
+        File directory = new File(path);
+        allFiles = directory.listFiles();
 
-
-        //NOT DUMMY DATA
-        //String path = getExternalFilesDir("/").getAbsolutePath();
-        //File directory = new File(path);
-        //allFiles = directory.listFiles();
-
-        //Would need to change req in adapter to non-array list
-        //AudioAdapter audioAdapter = new AudioAdapter(this, allFiles);
-
-        //Initialize adapter class and pass arraylist to it
-        AudioAdapter audioAdapter = new AudioAdapter(this, audioModelArrayList);
+        //Initialize adapter class and pass files to it
+        audioAdapter = new AudioAdapter(allFiles); //May need to add context first
 
         //Set a layout manager for recycler view--vertical list
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
 
         //Set layout manager and adapter to recycler view
+        audioRV.setHasFixedSize(true);
+        //OTHER WAY: audioList.setLayoutManager(new LinearLayoutManager(getContext()));
         audioRV.setLayoutManager(linearLayoutManager);
         audioRV.setAdapter(audioAdapter);
     }

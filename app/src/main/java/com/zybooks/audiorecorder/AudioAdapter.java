@@ -17,6 +17,7 @@ import java.util.ArrayList;
 
 public class AudioAdapter extends RecyclerView.Adapter<AudioAdapter.Viewholder>{
     private Context context;
+
     //List of all audio records
     private ArrayList<AudioModel> audioModelArrayList;
     //private String fileName;
@@ -24,9 +25,8 @@ public class AudioAdapter extends RecyclerView.Adapter<AudioAdapter.Viewholder>{
     private File[] allFiles;
 
     //Constructor
-    public AudioAdapter(Context context, ArrayList<AudioModel> audioModelArrayList){
-        this.context = context;
-        this.audioModelArrayList = audioModelArrayList;
+    public AudioAdapter(File[] allFiles){
+        this.allFiles = allFiles;
     }
 
     //Inflates the layout for each card in the recycler view
@@ -40,21 +40,15 @@ public class AudioAdapter extends RecyclerView.Adapter<AudioAdapter.Viewholder>{
     @Override
     public void onBindViewHolder(@NonNull AudioAdapter.Viewholder holder, int position) {
         //Sets text and image for each card
-        //AudioModel model = audioModelArrayList.get(position);
-        //holder.fileName.setText(model.getFileName());
-        //holder.fileTime.setText(model.getFileTime());
-        //holder.playImage.setImageResource(model.getPlayImage());
-
-        //fileName = model.getFileName();
-
         holder.fileName.setText(allFiles[position].getName());
         holder.fileTime.setText(allFiles[position].lastModified() + "");
+        holder.playImage.setImageResource(R.drawable.play);
     }
 
     @Override
     public int getItemCount() {
-        //Returns number of cards in recycler view
-        return audioModelArrayList.size();
+        //Returns number of cards/files in recycler view
+        return allFiles.length;
     }
 
     //View holder class for initializing of TextViews
