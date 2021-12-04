@@ -53,7 +53,7 @@
             android:text="@string/audio_time" />
 
         <Button
-            android:id="@+id/deleteButton"
+            android:id="@+id/idDeleteButton"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@id/idFileTime"

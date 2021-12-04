@@ -6,6 +6,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
@@ -13,7 +14,7 @@ import java.io.File;
 import java.lang.reflect.Array;
 import java.util.ArrayList;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity{
 
     private RecyclerView audioRV;
     // ArrayList for storing data
@@ -33,8 +34,25 @@ public class MainActivity extends AppCompatActivity {
         File directory = new File(path);
         allFiles = directory.listFiles();
 
+        // Click listener for the RecyclerView
+        View.OnClickListener onPlayClickListener = itemView -> {
+
+            // Create fragment arguments containing the selected band ID
+            String selectedFile = (String) itemView.getTag();
+            Bundle args = new Bundle();
+            Log.d("ON PLAY", "File Clicked: " + selectedFile);
+        };
+
+        View.OnClickListener onDeleteClickListener = itemView -> {
+
+            // Create fragment arguments containing the selected band ID
+            String selectedFile = (String) itemView.getTag();
+            //Bundle args = new Bundle();
+            Log.d("ON DELETE", "File Clicked: " + selectedFile);
+        };
+
         //Initialize adapter class and pass files to it
-        audioAdapter = new AudioAdapter(allFiles); //May need to add context first
+        audioAdapter = new AudioAdapter(allFiles, onPlayClickListener, onDeleteClickListener); //May need to add context first
 
         //Set a layout manager for recycler view--vertical list
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
@@ -56,4 +74,9 @@ public class MainActivity extends AppCompatActivity {
         //String item = audioModelArrayList.get(itemPosition);
         //Toast.makeText(this, item, Toast.LENGTH_LONG).show();
     }
+
+    //@Override
+    //public void onClickListener(File file, int position) {
+    //    Log.d("PLAY LOG", "File Playing: " + file.getName());
+    //}
 }

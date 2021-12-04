@@ -6,6 +6,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import androidx.annotation.NonNull;
@@ -21,12 +22,18 @@ public class AudioAdapter extends RecyclerView.Adapter<AudioAdapter.Viewholder>{
     //List of all audio records
     private ArrayList<AudioModel> audioModelArrayList;
     //private String fileName;
+    private View.OnClickListener mOnPlayClickListener;
+    private View.OnClickListener mOnDeleteClickListener;
 
     private File[] allFiles;
+    //private onItemListClick onItemListClick;
 
     //Constructor
-    public AudioAdapter(File[] allFiles){
+    public AudioAdapter(File[] allFiles, View.OnClickListener onPlayClickListener, View.OnClickListener onDeleteClickListener){
         this.allFiles = allFiles;
+        mOnPlayClickListener = onPlayClickListener;
+        mOnDeleteClickListener = onDeleteClickListener;
+
     }
 
     //Inflates the layout for each card in the recycler view
@@ -43,6 +50,14 @@ public class AudioAdapter extends RecyclerView.Adapter<AudioAdapter.Viewholder>{
         holder.fileName.setText(allFiles[position].getName());
         holder.fileTime.setText(allFiles[position].lastModified() + "");
         holder.playImage.setImageResource(R.drawable.play);
+
+        //Sets tag (file) and onClickListener for play button
+        holder.playImage.setTag(allFiles[position].getName());
+        holder.playImage.setOnClickListener(mOnPlayClickListener);
+
+        //Sets tag (file) and onClickListener for delete button
+        holder.deleteButton.setTag(allFiles[position].getName());
+        holder.deleteButton.setOnClickListener(mOnDeleteClickListener);
     }
 
     @Override
@@ -52,17 +67,20 @@ public class AudioAdapter extends RecyclerView.Adapter<AudioAdapter.Viewholder>{
     }
 
     //View holder class for initializing of TextViews
-    public class Viewholder extends RecyclerView.ViewHolder {
+    public class Viewholder extends RecyclerView.ViewHolder{
         private TextView fileName, fileTime;
         private ImageView playImage;
+        private Button deleteButton;
 
         public Viewholder(@NonNull View itemView) {
             super(itemView);
             fileName = itemView.findViewById(R.id.idFileName);
             fileTime = itemView.findViewById(R.id.idFileTime);
             playImage = itemView.findViewById(R.id.idPlayButton);
+            deleteButton = itemView.findViewById(R.id.idDeleteButton);
         }
     }
+
 
 
 }
