@@ -4,11 +4,13 @@ package com.zybooks.audiorecorder;
 public class AudioModel {
     private String fileName;
     private String fileTime;
+    private int playImage;
 
     //Constructor
-    public AudioModel(String fileName, String fileTime){
+    public AudioModel(String fileName, String fileTime, int playImage){
         this.fileName = fileName;
         this.fileTime = fileTime;
+        this.playImage = playImage;
     }
 
     //Getters and Setters
@@ -26,6 +28,14 @@ public class AudioModel {
 
     public void setFileTime(String fileTime){
         this.fileTime = fileTime;
+    }
+
+    public int getPlayImage() {
+        return playImage;
+    }
+
+    public void setPlayImage(String playImage){
+        this.fileTime = playImage;
     }
 
 }

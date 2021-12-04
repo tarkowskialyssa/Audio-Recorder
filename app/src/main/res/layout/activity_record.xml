@@ -36,6 +36,7 @@
       android:layout_width="223dp"
       android:layout_height="175dp"
       android:layout_marginTop="235dp"
+      android:onClick="onRecordClick"
       app:layout_constraintEnd_toEndOf="parent"
       app:layout_constraintHorizontal_bias="0.5"
       app:layout_constraintStart_toStartOf="parent"
@@ -49,6 +50,17 @@
       android:layout_marginTop="475dp"
       android:text="Save Audio"
       android:textSize="18sp"
+      app:layout_constraintEnd_toEndOf="parent"
+      app:layout_constraintHorizontal_bias="0.5"
+      app:layout_constraintStart_toStartOf="parent"
+      app:layout_constraintTop_toTopOf="parent" />
+
+  <TextView
+      android:id="@+id/testText"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:layout_marginTop="587dp"
+      android:text="TextView"
       app:layout_constraintEnd_toEndOf="parent"
       app:layout_constraintHorizontal_bias="0.5"
       app:layout_constraintStart_toStartOf="parent"
