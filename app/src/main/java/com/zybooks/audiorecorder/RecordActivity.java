@@ -14,8 +14,10 @@ import android.graphics.drawable.Drawable;
 import android.media.MediaRecorder;
 import android.os.Bundle;
 import android.os.Environment;
+import android.os.SystemClock;
 import android.util.Log;
 import android.view.View;
+import android.widget.Chronometer;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -31,12 +33,11 @@ public class RecordActivity extends AppCompatActivity {
 
     private static final String LOG_TAG = "RecordActivity";
     private static final int PERMISSION_REQUEST_CODE = 200;
-    private static String fileName;
     private ImageView recordButton;
     private boolean mStartRecording = true;
     private TextView testText;
     private MediaRecorder recorder = null;
-    File audioFile = null;
+    private Chronometer timer;
 
     //Request permission to record audio
     private boolean permissionToRecordAccepted = false;
@@ -46,23 +47,9 @@ public class RecordActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_record);
 
-        //fileName = getExternalFilesDir(null).getAbsolutePath();
-        //fileName += "/audiorecordtest.3gp";
-
         recordButton = findViewById(R.id.idRecordImageView);
         testText = findViewById(R.id.testText);
-    }
-
-    //Creates unique filename and returns it--NOT USING THIS FUNCTION
-    private File createAudioFile() throws IOException {
-        //Create unique filename
-        String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
-        String audioFileName = "audio_" + timeStamp + ".3gp";
-
-        //Create the file in external storage
-        File storageDir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_MUSIC);
-        File audio = new File(storageDir, audioFileName);
-        return audio;
+        timer = findViewById(R.id.recordTimer);
     }
 
     private void onRecord(boolean start){
@@ -78,26 +65,20 @@ public class RecordActivity extends AppCompatActivity {
 
     //Starts recording with mic
     private void startRecording() {
-        //try {
-        //    audioFile = createAudioFile();
-        //} catch (IOException ex) {
-        //   Log.d("TAG", "Error creating audio file: " + ex);
-        //}
-
+        //Resets timer to zero
+        timer.setBase(SystemClock.elapsedRealtime());
+        //Starts timer
+        timer.start();
         String recordPath = getExternalFilesDir("/").getAbsolutePath();
-        //String recordPath = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_MUSIC);
 
         String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
         String fileName = "audio_" + timeStamp + ".3gp";
-
-        //String fileName = Environment.getExternalStorageDirectory().toString()+"/audioFile.3gp";
 
         testText.setText("Start recording");
         recorder = new MediaRecorder();
         recorder.setAudioSource(MediaRecorder.AudioSource.MIC);
         recorder.setOutputFormat(MediaRecorder.OutputFormat.THREE_GPP);
         recorder.setOutputFile(recordPath + "/" + fileName);
-        //recorder.setOutputFile(fileName);
         recorder.setAudioEncoder(MediaRecorder.AudioEncoder.AMR_NB);
 
         try {
@@ -113,11 +94,11 @@ public class RecordActivity extends AppCompatActivity {
 
     //Stops recording
     private void stopRecording() {
+        timer.stop();
         recorder.stop();
         recorder.release();
         recorder = null;
         Toast.makeText(this, "Recording Saved!", Toast.LENGTH_LONG);
-        //testText.setText(fileName);
     }
 
     public void onRecordClick (View view) {
