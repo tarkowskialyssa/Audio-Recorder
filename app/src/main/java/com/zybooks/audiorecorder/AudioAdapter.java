@@ -47,22 +47,26 @@ public class AudioAdapter extends RecyclerView.Adapter<AudioAdapter.Viewholder>{
     @Override
     public void onBindViewHolder(@NonNull AudioAdapter.Viewholder holder, int position) {
         //Sets text and image for each card
-        holder.fileName.setText(allFiles[position].getName());
-        holder.fileTime.setText(allFiles[position].lastModified() + "");
-        holder.playImage.setImageResource(R.drawable.play);
 
-        //Sets tag (file) and onClickListener for play button
-        holder.playImage.setTag(allFiles[position].getName());
-        holder.playImage.setOnClickListener(mOnPlayClickListener);
+        if (allFiles[position].lastModified() != 0) {
+            holder.fileName.setText(allFiles[position].getName());
+            holder.fileTime.setText(allFiles[position].lastModified() + "");
+            holder.playImage.setImageResource(R.drawable.play);
 
-        //Sets tag (file) and onClickListener for delete button
-        holder.deleteButton.setTag(allFiles[position].getName());
-        holder.deleteButton.setOnClickListener(mOnDeleteClickListener);
+            //Sets tag (file) and onClickListener for play button
+            holder.playImage.setTag(allFiles[position].getName());
+            holder.playImage.setOnClickListener(mOnPlayClickListener);
+
+            //Sets tag (file) and onClickListener for delete button
+            holder.deleteButton.setTag(position);
+            holder.deleteButton.setOnClickListener(mOnDeleteClickListener);
+        }
     }
 
     @Override
     public int getItemCount() {
         //Returns number of cards/files in recycler view
+        Log.d("getItemCount()", "Count: " + allFiles.length);
         return allFiles.length;
     }
 
@@ -79,6 +83,10 @@ public class AudioAdapter extends RecyclerView.Adapter<AudioAdapter.Viewholder>{
             playImage = itemView.findViewById(R.id.idPlayButton);
             deleteButton = itemView.findViewById(R.id.idDeleteButton);
         }
+    }
+
+    public void updateFiles(File[] updatedFiles){
+        allFiles = updatedFiles;
     }
 
 
