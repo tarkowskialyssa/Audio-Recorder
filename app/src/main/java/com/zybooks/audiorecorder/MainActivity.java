@@ -15,10 +15,12 @@ import android.content.pm.PackageManager;
 import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.CountDownTimer;
 import android.os.FileUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import java.io.File;
@@ -39,6 +41,7 @@ public class MainActivity extends AppCompatActivity{
 
     //UI Element
     private ImageView playButton;
+    private TextView timerText;
 
     private static final int PERMISSION_REQUEST_CODE = 200;
 
@@ -63,6 +66,7 @@ public class MainActivity extends AppCompatActivity{
         // Click listener for the RecyclerView
         View.OnClickListener onPlayClickListener = itemView -> {
             playButton = itemView.findViewById(R.id.idPlayButton);
+            timerText = itemView.findViewById(R.id.idFileTime);
 
             if (permissionToAccessAccepted){
                 // Get the file that was clicked
@@ -135,6 +139,7 @@ public class MainActivity extends AppCompatActivity{
         //File file = new File(filePath);
         //MediaPlayer mediaPlayer = MediaPlayer.create(this, Uri.fromFile(file));
         //mediaPlayer.start(); // no need to call prepare(); create() does that for you
+        player.setVolume(100, 100);
         try{
             player.setDataSource(filePath);
             player.prepare();
@@ -143,6 +148,9 @@ public class MainActivity extends AppCompatActivity{
         } catch (IOException e){
             Log.e("startPlaying()" ,"prepare() failed");
         }
+
+        Log.d("MediaPlayer", "duration: " + player.getDuration());
+        Log.d("MediaPlayer", "onComplete, player.isPlaying() returns " + player.isPlaying());
 
         //Set listener to stop player when audio is done playing
         player.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {

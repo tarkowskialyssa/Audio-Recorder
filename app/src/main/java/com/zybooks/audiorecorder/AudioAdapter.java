@@ -14,6 +14,7 @@ import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.io.File;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 
 public class AudioAdapter extends RecyclerView.Adapter<AudioAdapter.Viewholder>{
@@ -47,7 +48,10 @@ public class AudioAdapter extends RecyclerView.Adapter<AudioAdapter.Viewholder>{
     public void onBindViewHolder(@NonNull AudioAdapter.Viewholder holder, int position) {
         //Sets text and image for each card
         holder.fileName.setText(allFiles[position].getName());
-        holder.fileTime.setText(allFiles[position].lastModified() + "");
+
+        SimpleDateFormat sim = new SimpleDateFormat("MM/dd/yyyy HH:mm:ss");
+        holder.fileTime.setText("Created on " + sim.format(allFiles[position].lastModified()));
+
         holder.playImage.setImageResource(R.drawable.play);
 
         //Sets tag (file) and onClickListener for play button
