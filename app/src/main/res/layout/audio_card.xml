@@ -38,7 +38,7 @@
             android:layout_toEndOf="@id/idPlayButton"
             android:text="@string/audio_name"
             android:textColor="@color/black"
-            android:textSize="18sp"
+            android:textSize="17sp"
             android:textStyle="bold" />
 
         <TextView

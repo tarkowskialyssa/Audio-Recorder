@@ -30,7 +30,11 @@ public class RecordActivity extends AppCompatActivity {
     private boolean mStartRecording = true;
     private TextView fileText;
     private MediaRecorder recorder = null;
+
+    //Timer
     private Chronometer timer;
+
+    //Log Tag
     private String TAG = "RecordActivity";
 
     //Request permission to record audio
@@ -47,7 +51,6 @@ public class RecordActivity extends AppCompatActivity {
     }
 
     private void onRecord(boolean start){
-        //testText.setText("in onRecord()");
         if (start) {
             startRecording();
         } else {
@@ -63,6 +66,7 @@ public class RecordActivity extends AppCompatActivity {
         timer.start();
         String recordPath = getExternalFilesDir("/").getAbsolutePath();
 
+        //Creates unique file name
         String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
         String fileName = "audio_" + timeStamp + ".3gp";
 
@@ -107,6 +111,7 @@ public class RecordActivity extends AppCompatActivity {
         }
     }
 
+    //Check and ask for permissions
     private void havePermissions () {
         if (!checkPermission()) {
             Log.d(TAG, "No permissions");
@@ -148,6 +153,8 @@ public class RecordActivity extends AppCompatActivity {
                 }
         }
     }
+
+    //Releases AudioRecorder when activity is stopped
     @Override
     public void onStop() {
         super.onStop();

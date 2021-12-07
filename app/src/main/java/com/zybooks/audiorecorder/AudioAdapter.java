@@ -20,7 +20,6 @@ public class AudioAdapter extends RecyclerView.Adapter<AudioAdapter.Viewholder>{
     private Context context;
 
     //List of all audio records
-    private ArrayList<AudioModel> audioModelArrayList;
     //private String fileName;
     private View.OnClickListener mOnPlayClickListener;
     private View.OnClickListener mOnDeleteClickListener;
@@ -47,20 +46,17 @@ public class AudioAdapter extends RecyclerView.Adapter<AudioAdapter.Viewholder>{
     @Override
     public void onBindViewHolder(@NonNull AudioAdapter.Viewholder holder, int position) {
         //Sets text and image for each card
+        holder.fileName.setText(allFiles[position].getName());
+        holder.fileTime.setText(allFiles[position].lastModified() + "");
+        holder.playImage.setImageResource(R.drawable.play);
 
-        if (allFiles[position].lastModified() != 0) {
-            holder.fileName.setText(allFiles[position].getName());
-            holder.fileTime.setText(allFiles[position].lastModified() + "");
-            holder.playImage.setImageResource(R.drawable.play);
+        //Sets tag (file) and onClickListener for play button
+        holder.playImage.setTag(allFiles[position]);
+        holder.playImage.setOnClickListener(mOnPlayClickListener);
 
-            //Sets tag (file) and onClickListener for play button
-            holder.playImage.setTag(allFiles[position].getName());
-            holder.playImage.setOnClickListener(mOnPlayClickListener);
-
-            //Sets tag (file) and onClickListener for delete button
-            holder.deleteButton.setTag(position);
-            holder.deleteButton.setOnClickListener(mOnDeleteClickListener);
-        }
+        //Sets tag (file) and onClickListener for delete button
+        holder.deleteButton.setTag(position);
+        holder.deleteButton.setOnClickListener(mOnDeleteClickListener);
     }
 
     @Override

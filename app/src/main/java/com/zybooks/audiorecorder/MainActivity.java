@@ -30,7 +30,6 @@ import java.util.ArrayList;
 public class MainActivity extends AppCompatActivity{
 
     private RecyclerView audioRV;
-    // ArrayList for storing data
     private AudioAdapter audioAdapter;
     private MediaPlayer player = null;
     private String filePath;
@@ -38,7 +37,7 @@ public class MainActivity extends AppCompatActivity{
     private File[] allFiles;
     private boolean startPlaying = true;
 
-    //UI Elements
+    //UI Element
     private ImageView playButton;
 
     private static final int PERMISSION_REQUEST_CODE = 200;
@@ -50,6 +49,7 @@ public class MainActivity extends AppCompatActivity{
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
         //Set recycler view
         audioRV = findViewById(R.id.idAudioRV);
 
@@ -66,15 +66,16 @@ public class MainActivity extends AppCompatActivity{
 
             if (permissionToAccessAccepted){
                 // Get the file that was clicked
-                String selectedFile = (String) itemView.getTag();
-                String recordPath = getExternalFilesDir("/").getAbsolutePath();
-                filePath = recordPath + "/" + selectedFile;
+                File selectedFile = (File) itemView.getTag();
+
+                filePath = selectedFile.getAbsolutePath();
 
                 Log.d("ON PLAY", "File Clicked: " + selectedFile);
 
+                //Call the function to start playing
                 onPlay(startPlaying);
-                startPlaying = !startPlaying;
 
+                //Change button to either "play" or "stop" image
                 int imageResource = startPlaying ? R.drawable.play : R.drawable.stop;
                 playButton.setImageDrawable(ContextCompat.getDrawable(MainActivity.this, imageResource));
 
@@ -85,11 +86,12 @@ public class MainActivity extends AppCompatActivity{
         };
 
         View.OnClickListener onDeleteClickListener = itemView -> {
-            // Get the file that was clicked
+            // Get the position that was clicked
             int position = (int) itemView.getTag();
 
             Log.d("clickedDelete", "Position: " + position);
 
+            //Get the selected file based on the position
             String selectedFile = allFiles[position].getName();
             String recordPath = getExternalFilesDir("/").getAbsolutePath();
 
@@ -111,6 +113,7 @@ public class MainActivity extends AppCompatActivity{
         audioRV.setAdapter(audioAdapter);
     }
 
+    //Goes to Record page to create new audio files
     public void onNewClick (View view) {
         Intent intent = new Intent(this, RecordActivity.class);
         startActivity(intent);
@@ -124,33 +127,47 @@ public class MainActivity extends AppCompatActivity{
         }
     }
 
+    //Plays selected audio
     private void startPlaying(){
-        if (player != null) {
-            player.release();
-            player = null;
-        }
+        startPlaying = false;
 
         player = new MediaPlayer();
-        File file = new File(filePath);
-        MediaPlayer mediaPlayer = MediaPlayer.create(this, Uri.fromFile(file));
-        mediaPlayer.start(); // no need to call prepare(); create() does that for you
-        //try{
-            //player.setDataSource(filePath);
-            //player.prepare();
-            //player.start();
+        //File file = new File(filePath);
+        //MediaPlayer mediaPlayer = MediaPlayer.create(this, Uri.fromFile(file));
+        //mediaPlayer.start(); // no need to call prepare(); create() does that for you
+        try{
+            player.setDataSource(filePath);
+            player.prepare();
+            player.start();
             Log.d("Playing" ,filePath);
-        //} catch (IOException e){
-        //    Log.e("startPlaying()" ,"prepare() failed");
-        //}
+        } catch (IOException e){
+            Log.e("startPlaying()" ,"prepare() failed");
+        }
+
+        //Set listener to stop player when audio is done playing
+        player.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+            @Override
+            public void onCompletion(MediaPlayer mp) {
+                stopPlaying();
+            }
+        });
     }
 
+    //Stops audio when recording is finished or stop button is clicked
     private void stopPlaying(){
+        startPlaying = true;
         player.release();
         player = null;
+
+        //Resets all buttons to the play image
+        audioAdapter.notifyItemRangeChanged(0, allFiles.length);
+
         Log.d("Stopped: " ,filePath);
     }
 
+    //Deletes selected audio file and removes it from the view
     private void onDelete(int position, String filePath){
+        //Deletes the file on external storage
         File file = new File(filePath);
         file.delete();
 
@@ -170,6 +187,7 @@ public class MainActivity extends AppCompatActivity{
         Toast.makeText(this, file + " deleted!", Toast.LENGTH_SHORT).show();
     }
 
+    //Releases MediaPlayer when activity is stopped
     @Override
     public void onStop(){
         super.onStop();
@@ -179,6 +197,7 @@ public class MainActivity extends AppCompatActivity{
         }
     }
 
+    //Get permissions to read external storage
     private void havePermissions () {
         if (!checkPermission()) {
             Log.d("havePermissions()", "No Permissions");
