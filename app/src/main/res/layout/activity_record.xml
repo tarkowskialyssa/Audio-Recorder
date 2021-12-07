@@ -11,11 +11,10 @@
       android:layout_width="342dp"
       android:layout_height="63dp"
       android:layout_marginTop="35dp"
-      android:text='Record your audio below. Once done, click "save" to save your audio.'
+      android:text="Record your audio below. Once done, your audio will automatically save."
       android:textAlignment="center"
       android:textSize="18sp"
       app:layout_constraintEnd_toEndOf="parent"
-      app:layout_constraintHorizontal_bias="0.5"
       app:layout_constraintStart_toStartOf="parent"
       app:layout_constraintTop_toTopOf="parent" />
 
@@ -26,31 +25,28 @@
       android:layout_marginTop="128dp"
       android:textAppearance="@style/TextAppearance.AppCompat.Display3"
       app:layout_constraintEnd_toEndOf="parent"
-      app:layout_constraintHorizontal_bias="0.497"
       app:layout_constraintStart_toStartOf="parent"
       app:layout_constraintTop_toTopOf="parent" />
 
   <ImageView
       android:id="@+id/idRecordImageView"
-      android:layout_width="223dp"
-      android:layout_height="175dp"
-      android:layout_marginTop="235dp"
+      android:layout_width="301dp"
+      android:layout_height="221dp"
+      android:layout_marginTop="240dp"
       android:onClick="onRecordClick"
       app:layout_constraintEnd_toEndOf="parent"
-      app:layout_constraintHorizontal_bias="0.5"
       app:layout_constraintStart_toStartOf="parent"
       app:layout_constraintTop_toTopOf="parent"
-      app:srcCompat="@drawable/play" />
+      app:srcCompat="@drawable/record" />
 
   <TextView
       android:id="@+id/fileText"
       android:layout_width="wrap_content"
       android:layout_height="wrap_content"
-      android:layout_marginTop="492dp"
+      android:layout_marginTop="504dp"
       android:text="Press the button to record."
       android:textSize="18sp"
       app:layout_constraintEnd_toEndOf="parent"
-      app:layout_constraintHorizontal_bias="0.526"
       app:layout_constraintStart_toStartOf="parent"
       app:layout_constraintTop_toTopOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>

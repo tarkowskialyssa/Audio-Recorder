@@ -103,7 +103,7 @@ public class RecordActivity extends AppCompatActivity {
             mStartRecording = !mStartRecording;
 
             //Updates button image
-            int imageResource = mStartRecording ? R.drawable.play : R.drawable.stop;
+            int imageResource = mStartRecording ? R.drawable.record : R.drawable.recording;
             recordButton.setImageDrawable(ContextCompat.getDrawable(RecordActivity.this, imageResource));
 
         } else {
